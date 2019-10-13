@@ -1,4 +1,13 @@
-def numberToWords(input):
+import json
+
+data = {}
+with open('words_dictionary.json') as json_file:
+    data = json.load(json_file)
+
+
+
+
+def number_to_words(input):
   input = str(input)
   #remove dashes
   input  = input.replace("-","")
@@ -31,19 +40,8 @@ def numberToWords(input):
 
     for j in range(len(result)):
       for k in range(len(letters)):
-        # append letters only to the first element of the result list ('') and previous digit (not to everything currently in the result list)
-        if i>0 and input[i-1] in dict.keys():
-          lenPrev = len(dict[input[i-1]])
-        else:
-          lenPrev = 1
-        lengthOfPrevDigit = len(letters)*lenPrev
-        if j==0 or j>= (len(result)-lengthOfPrevDigit):
-          print("result len", len(result))
-          print(lengthOfPrevDigit)
-          print(len(result)-lengthOfPrevDigit)
+        result.append(result[j]+letters[k])
 
-          result.append(result[j]+letters[k])
-          print(result)
         #filter for only full length conversion (the returned array contains only letters and no numbers)
         if len(result[j]+letters[k]) == len(input):
           final.append(result[j]+letters[k])
@@ -51,6 +49,33 @@ def numberToWords(input):
   return final
 
 
+def checkForWord(lst):
+  for i in range(len(lst)):
+    containsWord(lst[i])
+
+def containsWord(str):
+
+  for i in range(len(str)):
+    return growingSubString(str[i:len(str)])
 
 
-print(numberToWords("2-3-4"))
+def growingSubString(str):
+
+  for i in range(len(str)+1):
+    # word must be longer than one character
+
+    if len(str[0:i])>2 and str[0:i] in data.keys():
+      print(str[0:i])
+
+  return False
+
+
+
+
+
+
+
+
+print(number_to_words("4355"))
+lst = number_to_words("4355")
+print(checkForWord(lst))
