@@ -1,8 +1,5 @@
-# numberToWords.py takes as input a string representing a US phone number and outputs the first possible combination of numbers and an English word in a phone number that can be typed on a US phone.
-#
-# Example usage:
-# print(number_to_words("00006270000"))
-# returns 0-000-map-0000
+
+# allWordifications.py is almost identical to numberToWords.py, except it takes as input a string representing a US phone number and outputs all possible "wordified" phone numbers (all possible combinations of numbers and English words in the input).
 import json
 
 # the json data of a dictionary of english words is from https://github.com/dwyl/english-words
@@ -10,8 +7,8 @@ data = {}
 with open('words_dictionary.json') as json_file:
     data = json.load(json_file)
 
-
-def number_to_words(input):
+# this algorithm is a variation on finding the powerset of a set and finds all character subsequences possible from the input string and then using a O(1) dictionary lookup, checks if every subsequence is a valid English word
+def all_wordifications(input):
   input = str(input)
   #remove dashes
   input  = input.replace("-","")
@@ -75,11 +72,11 @@ def number_to_words(input):
 
           # assume minimum length of word must be 3
           if len(word) > 2 and word in data.keys():
-            return phoneNumberWithWord(input, i-len(word)+1, word)
+            output = phoneNumberWithWord(input, i-len(word)+1, word)
+            print(output)
+            final.append(output)
 
-          #filter for only full length conversion (the returned array contains only letters and no numbers)
-          if len(result[j]+letters[k]) == len(input):
-            final.append(result[j]+letters[k])
+  return final
 
 
 
@@ -95,5 +92,6 @@ def phoneNumberWithWord(number, index, word):
 
 
 
-print(number_to_words("00006270000"))
-print(number_to_words("06690000000"))
+print(all_wordifications("06690"))
+print(all_wordifications("1-800-724-6837"))
+

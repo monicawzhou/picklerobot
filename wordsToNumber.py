@@ -1,4 +1,14 @@
+# wordsToNumber.py converts a phone number that includes letters/words into numbers
+#
+# Example usage:
+# print words_to_number("1-800-PAINTER")
+# returns 1-800-724-6837
+
+
+# takes an input a string representing a phone number that includes words/letters and converts it into all numeric digits
 def words_to_number(str):
+  #remove dashes
+  str  = str.replace("-","")
   dict = {'A': '2', 'B': '2', 'C': '2',
           'D': '3', 'E': '3', 'F': '3',
           'G': '4', 'H': '4', 'I': '4',
@@ -17,6 +27,10 @@ def words_to_number(str):
       converted += dict[str[i]]
     else:
       converted += str[i]
+
+  # add dashes
+  if(len(converted)==11):
+    converted = '-'.join([converted[:1], converted[1:4], converted[4:7], converted[7:]])
 
   return converted
 
